@@ -121,7 +121,7 @@ class State {
         stroke(120, 120, 255);
       }
       else if (SimulationStatus === 1){
-        stroke(120, 255, 120);
+        stroke(40, 200, 40);
       }
       else {
         stroke(255, 120, 120);
