@@ -26,6 +26,9 @@ let newConnectionActive = false;
 let newConnectionRef;
 let newConnectionSegment;
 
+//TTS
+let TuringTrack = ['ɛ', 'ɛ', 'ɛ', 'ɛ'];
+
 //Variables
 
 const NODE_DISTANCE = 175;
