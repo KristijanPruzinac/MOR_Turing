@@ -191,53 +191,58 @@ function mousePressed(){
   }
   
   //GUI Simulation next button
-  if (SimulationRunning === true &&  sqrt(pow(mouseX - (width - 42), 2) + pow(mouseY - (height - 110), 2)) <= 25){
-    //State to connection
-    if (SimulationShowCounter === 0){
-      let currentLetter = TuringTrack[TuringHead];
-      
-      SimulationSelectedConnection = null;
-      for (let connection of SimulationSelectedState.connections){
-        if (connection.letterRead === currentLetter){
-          SimulationSelectedConnection = connection;
-          break;
-        }
-      }
-      
-      //Found target node, program finishes
-      if (SimulationSelectedState.target === true){
-        SimulationStatus = 1;
-      }
-      else if (SimulationSelectedConnection === null){ //No connections moving forward
-        //Simulation stopped but node is not target, throw error
-        SimulationStatus = -1;
-      }
-      //Found next connection, move
-      else {
-        let headOffset = 0;
-        if (SimulationSelectedConnection.move === 'L'){
-          headOffset--;
-        }
-        else if (SimulationSelectedConnection.move === 'D') {
-          headOffset++;
+  if (SimulationRunning === true && (sqrt(pow(mouseX - (width - 42), 2) + pow(mouseY - (height - 110), 2)) <= 25 || sqrt(pow(mouseX - (width - 42), 2) + pow(mouseY - (height - 170), 2)) <= 25)){
+    let stepRepeat = 1;
+    if (sqrt(pow(mouseX - (width - 42), 2) + pow(mouseY - (height - 170), 2)) <= 25){stepRepeat = 1000;}
+    
+    for (let c = 0; c < stepRepeat; c++){
+      //State to connection
+      if (SimulationShowCounter === 0){
+        let currentLetter = TuringTrack[TuringHead];
+        
+        SimulationSelectedConnection = null;
+        for (let connection of SimulationSelectedState.connections){
+          if (connection.letterRead === currentLetter){
+            SimulationSelectedConnection = connection;
+            break;
+          }
         }
         
-        if (TuringHead + headOffset < 0 || TuringHead + headOffset > TuringTrack.length - 1){
+        //Found target node, program finishes
+        if (SimulationSelectedState.target === true){
+          SimulationStatus = 1;
+        }
+        else if (SimulationSelectedConnection === null){ //No connections moving forward
+          //Simulation stopped but node is not target, throw error
           SimulationStatus = -1;
         }
+        //Found next connection, move
         else {
-          TuringTrack[TuringHead] = SimulationSelectedConnection.letterWrite;
-          TuringHead += headOffset;
-        
-          SimulationShowCounter = 1;
+          let headOffset = 0;
+          if (SimulationSelectedConnection.move === 'L'){
+            headOffset--;
+          }
+          else if (SimulationSelectedConnection.move === 'D') {
+            headOffset++;
+          }
+          
+          if (TuringHead + headOffset < 0 || TuringHead + headOffset > TuringTrack.length - 1){
+            SimulationStatus = -1;
+          }
+          else {
+            TuringTrack[TuringHead] = SimulationSelectedConnection.letterWrite;
+            TuringHead += headOffset;
+          
+            SimulationShowCounter = 1;
+          }
         }
       }
-    }
-    //Connection to State
-    else {
-      SimulationSelectedState = SimulationSelectedConnection.endNode;
-      
-      SimulationShowCounter = 0;
+      //Connection to State
+      else {
+        SimulationSelectedState = SimulationSelectedConnection.endNode;
+        
+        SimulationShowCounter = 0;
+      }
     }
   }
     
@@ -595,6 +600,14 @@ function DrawGUI(){
     fill(245);
     triangle(width - 42 - 6 - 5, height - 110 - 10, width - 42 + 10 - 5, height - 110, width - 42 - 6 - 5, height - 110 + 10);
     triangle(width - 42 - 6 + 5, height - 110 - 10, width - 42 + 10 + 5, height - 110, width - 42 - 6 + 5, height - 110 + 10);
+    
+    noStroke();
+    fill(180);
+    ellipse(width - 42, height - 170, 50, 50);
+    fill(245);
+    triangle(width - 42 - 6 - 10, height - 170 - 10, width - 42 + 10 - 10, height - 170, width - 42 - 6 - 10, height - 170 + 10);
+    triangle(width - 42 - 6, height - 170 - 10, width - 42 + 10, height - 170, width - 42 - 6, height - 170 + 10);
+    triangle(width - 42 - 6 + 10, height - 170 - 10, width - 42 + 10 + 10, height - 170, width - 42 - 6 + 10, height - 170 + 10);
   }
 }
 
