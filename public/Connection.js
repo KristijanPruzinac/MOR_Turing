@@ -53,7 +53,13 @@ class Connection {
     
     noFill();
     strokeWeight(2);
-    stroke(100, 100, 100);
+    if (SimulationRunning === true && SimulationShowCounter === 1 && this === SimulationSelectedConnection){
+      stroke(120, 120, 255);
+      strokeWeight(4);
+    }
+    else {
+      stroke(100, 100, 100);
+    }
     textAlign(CENTER, CENTER);
     if (this.startNode === this.endNode){
       if (abs(this.startAngle - this.endAngle) >= 90){
@@ -171,7 +177,13 @@ class Connection {
     push();
     noFill();
     strokeWeight(2);
-    stroke(80, 80, 80);
+    if (SimulationRunning === true && SimulationShowCounter === 1 && this === SimulationSelectedConnection){
+      stroke(120, 120, 255);
+      strokeWeight(4);
+    }
+    else {
+      stroke(80, 80, 80);
+    }
     translate(this.endX, this.endY);
     rotate(-radians(this.endAngle + 180));
     line(0, 0, -5, -5);

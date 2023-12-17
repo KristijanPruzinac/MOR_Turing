@@ -116,11 +116,26 @@ class State {
     fill(225, 225, 255);
     strokeWeight(2);
     stroke(150, 150, 150);
+    if (SimulationRunning === true && SimulationShowCounter === 0 && this === SimulationSelectedState){
+      if (SimulationStatus === 0){
+        stroke(120, 120, 255);
+      }
+      else if (SimulationStatus === 1){
+        stroke(120, 255, 120);
+      }
+      else {
+        stroke(255, 120, 120);
+      }
+      
+      strokeWeight(4);
+    }
     ellipse(this.x, this.y,this.radius*2, this.radius*2);
     //If target, display double circle
     if (this.target === true){
       ellipse(this.x, this.y,this.radius*2 - 13, this.radius*2 - 13);
     }
+    strokeWeight(2);
+    stroke(150, 150, 150);
     
     //Text
     fill(0);
