@@ -163,7 +163,7 @@ function keyTyped(){
   }
 }
 
-function mousePressed(){
+function mouseClicked() {
   //Block mouse input while waiting for connection input or changing turing letter
   if (newConnectionActive === true){return;} if (changeTuringLetterActive === true){return;}
   
@@ -245,30 +245,8 @@ function mousePressed(){
       }
     }
   }
-    
-  if (SimulationRunning !== true) {
-    if (newConnectionStartX != -1){return;}
-    for (let node of nodes) {
-      let hoverTest = node.checkHover();
-      if (hoverTest.valid === true){
-        newConnectionStartX = hoverTest.x;
-        newConnectionStartY = hoverTest.y;
-        newConnectionStartNode = node;
-        newConnectionStartAngle = hoverTest.angle;
-        
-        return;
-      }
-      else {
-        //Remove connection
-        for (let i = 0; i < node.connections.length; i++) {
-          if (node.connections[i].startAngle === hoverTest.angle) {
-            node.connections.splice(i, 1);
-            break;
-          }
-        }
-      }
-    }
-    
+  
+  if (SimulationRunning !== true){
     // --- CLICK EVENTS ---
     
     //Select node check
@@ -385,8 +363,39 @@ function mousePressed(){
       changeTuringLetterActive = true;
       changeTuringLetterIndex = LetterIndex;
     }
+  }
+}
+
+function mousePressed(){
+  //Block mouse input while waiting for connection input or changing turing letter
+  if (newConnectionActive === true){return;} if (changeTuringLetterActive === true){return;}
+    
+  if (SimulationRunning !== true) {
+    if (newConnectionStartX != -1){return;}
+    for (let node of nodes) {
+      let hoverTest = node.checkHover();
+      if (hoverTest.valid === true){
+        newConnectionStartX = hoverTest.x;
+        newConnectionStartY = hoverTest.y;
+        newConnectionStartNode = node;
+        newConnectionStartAngle = hoverTest.angle;
+        
+        return;
+      }
+      else {
+        //Remove connection
+        for (let i = 0; i < node.connections.length; i++) {
+          if (node.connections[i].startAngle === hoverTest.angle) {
+            node.connections.splice(i, 1);
+            break;
+          }
+        }
+      }
+    }
     
     //GUI Turing click head
+    let TuringTrackWidth = TuringTrack.length * TURING_DISTANCE;
+    
     if (sqrt(pow(mouseX - (width / 2 - TuringTrackWidth / 2 + (TuringHead + 0.5) * TURING_DISTANCE), 2) + pow(mouseY - (height - 25 - 30), 2)) <= 10){
       TuringHeadSelected = true;
     }
